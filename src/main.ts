@@ -10,7 +10,7 @@ header.innerHTML = gameName;
 app.append(header);
 
 document.body.style.fontFamily = '"Papyrus", fantasy, sans-serif';
-document.body.style.color = 'orange';
+document.body.style.color = "orange";
 
 //Counter
 let counter: number = 0;
@@ -139,21 +139,24 @@ function updateButtonElement() {
 }
 
 //Upgrade buttons
-const candyCollectorsButton: HTMLButtonElement = document.createElement("button");
+const candyCollectorsButton: HTMLButtonElement =
+  document.createElement("button");
 candyCollectorsButton.innerHTML = `Upgrade A: ${upgradeA.amountPurchased}`;
 candyCollectorsButton.id = `Candy Collectors`;
 candyCollectorsButton.disabled = true;
 candyCollectorsButton.name = "candyCollectorsButton";
 app.append(candyCollectorsButton);
 
-const chocolateChumsButton: HTMLButtonElement = document.createElement("button");
+const chocolateChumsButton: HTMLButtonElement =
+  document.createElement("button");
 chocolateChumsButton.innerHTML = `Upgrade B: ${upgradeB.amountPurchased}`;
 chocolateChumsButton.id = `Chocolate Chums`;
 chocolateChumsButton.disabled = true;
 chocolateChumsButton.name = "chocolateChumsButton";
 app.append(chocolateChumsButton);
 
-const sugarSpecialistsButton: HTMLButtonElement = document.createElement("button");
+const sugarSpecialistsButton: HTMLButtonElement =
+  document.createElement("button");
 sugarSpecialistsButton.innerHTML = `Upgrade C: ${upgradeC.amountPurchased}`;
 sugarSpecialistsButton.id = `Sugar Specialists`;
 sugarSpecialistsButton.disabled = true;
