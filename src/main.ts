@@ -13,6 +13,7 @@ app.append(header);
 let counter: number = 990;
 let lastTime: number = performance.now();
 let rate: number = 0;
+let formattedRate: string = rate.toFixed(2);
 let roundedCounter: string = counter.toFixed(2);
 function updateCounter() {
   counter++;
@@ -83,7 +84,6 @@ function counterRate(): number {
   return result;
 }
 
-
 //Every second counter goes up one whole unit
 function updateCounterTime() {
   counter += counterRate();
@@ -105,15 +105,16 @@ setInterval(() => {console.log(rate, (counter - secondCounter).toFixed(1));
 //update the Text
 function updateDivElement() {
   rate = 0;
-  for (const upgrade of allUpgrades){
-    rate += (upgrade.countersPerSec * upgrade.amountPurchased);
+  for (const upgrade of allUpgrades) {
+    rate += upgrade.countersPerSec * upgrade.amountPurchased;
   }
+  formattedRate = rate.toFixed(2);
   console.log(rate);
   roundedCounter = counter.toFixed(2);
   if (roundedCounter == "1") {
-    divElement.innerHTML = `${roundedCounter} treat!<br>${rate} treats/sec`; //proper grammar
+    divElement.innerHTML = `${roundedCounter} treat!<br>${formattedRate} treats/sec`; //proper grammar
   } else {
-    divElement.innerHTML = `${roundedCounter} treats!<br>${rate} treats/sec`;
+    divElement.innerHTML = `${roundedCounter} treats!<br>${formattedRate} treats/sec`;
   }
 }
 
@@ -124,7 +125,8 @@ function updateButtonElement() {
       `button[name="${upgrade.upgradeButtonName}"]`,
     ) as HTMLButtonElement | null; //looking to see if there is a button element with the name
     if (currentButton) {
-      currentButton.innerHTML = `${currentButton.id}: ${upgrade.amountPurchased}`; 
+      let stringCost = (upgrade.cost).toFixed(2);
+      currentButton.innerHTML = `${currentButton.id}: ${upgrade.amountPurchased}<br>Upgrade cost: ${stringCost}`;
     }
   }
 }
@@ -166,6 +168,7 @@ function unlockUpgrade() {
           if (counter >= upgrade.cost) {
             counter -= upgrade.cost;
             upgrade.amountPurchased += 1;
+            upgrade.cost *= 1.15;
           }
         });
       }
