@@ -34,3 +34,6 @@ const divElement: HTMLDivElement = document.createElement("div");
 divElement.id = "Trick or Treat!"; //Unit Label
 divElement.textContent = `${counter} treats!`;
 app.append(divElement);
+
+//Every second counter goes up
+setInterval(updateCounter, 1000);
