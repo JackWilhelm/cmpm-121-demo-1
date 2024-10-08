@@ -9,8 +9,11 @@ const header = document.createElement("h1");
 header.innerHTML = gameName;
 app.append(header);
 
+document.body.style.fontFamily = '"Papyrus", fantasy, sans-serif';
+document.body.style.color = 'orange';
+
 //Counter
-let counter: number = 990;
+let counter: number = 0;
 let lastTime: number = performance.now();
 let rate: number = 0;
 let formattedRate: string = rate.toFixed(2);
@@ -28,6 +31,10 @@ app.append(button);
 button.addEventListener("click", () => {
   updateCounter();
 });
+button.style.fontSize = "128px";
+button.style.border = "none";
+button.style.padding = "0";
+button.style.backgroundColor = "transparent";
 
 //divElement
 const divElement: HTMLDivElement = document.createElement("div");
@@ -44,21 +51,21 @@ interface Upgrade {
 }
 
 const upgradeA: Upgrade = {
-  upgradeButtonName: "upgradeAButton",
+  upgradeButtonName: "candyCollectorsButton",
   cost: 10,
   countersPerSec: 0.1,
   amountPurchased: 0,
 };
 
 const upgradeB: Upgrade = {
-  upgradeButtonName: "upgradeBButton",
+  upgradeButtonName: "chocolateChumsButton",
   cost: 100,
   countersPerSec: 2,
   amountPurchased: 0,
 };
 
 const upgradeC: Upgrade = {
-  upgradeButtonName: "upgradeCButton",
+  upgradeButtonName: "sugarSpecialistsButton",
   cost: 1000,
   countersPerSec: 50,
   amountPurchased: 0,
@@ -112,9 +119,9 @@ function updateDivElement() {
   console.log(rate);
   roundedCounter = counter.toFixed(2);
   if (roundedCounter == "1") {
-    divElement.innerHTML = `${roundedCounter} treat!<br>${formattedRate} treats/sec`; //proper grammar
+    divElement.innerHTML = `${roundedCounter}<br>treat trick-or-treated!<br>${formattedRate} treats/sec`; //proper grammar
   } else {
-    divElement.innerHTML = `${roundedCounter} treats!<br>${formattedRate} treats/sec`;
+    divElement.innerHTML = `${roundedCounter}<br>treats trick-or-treated!<br>${formattedRate} treats/sec`;
   }
 }
 
@@ -125,33 +132,33 @@ function updateButtonElement() {
       `button[name="${upgrade.upgradeButtonName}"]`,
     ) as HTMLButtonElement | null; //looking to see if there is a button element with the name
     if (currentButton) {
-      let stringCost = (upgrade.cost).toFixed(2);
+      const stringCost = upgrade.cost.toFixed(2);
       currentButton.innerHTML = `${currentButton.id}: ${upgrade.amountPurchased}<br>Upgrade cost: ${stringCost}`;
     }
   }
 }
 
 //Upgrade buttons
-const upgradeAButton: HTMLButtonElement = document.createElement("button");
-upgradeAButton.innerHTML = `Upgrade A: ${upgradeA.amountPurchased}`;
-upgradeAButton.id = `Upgrade A`;
-upgradeAButton.disabled = true;
-upgradeAButton.name = "upgradeAButton";
-app.append(upgradeAButton);
+const candyCollectorsButton: HTMLButtonElement = document.createElement("button");
+candyCollectorsButton.innerHTML = `Upgrade A: ${upgradeA.amountPurchased}`;
+candyCollectorsButton.id = `Candy Collectors`;
+candyCollectorsButton.disabled = true;
+candyCollectorsButton.name = "candyCollectorsButton";
+app.append(candyCollectorsButton);
 
-const upgradeBButton: HTMLButtonElement = document.createElement("button");
-upgradeBButton.innerHTML = `Upgrade B: ${upgradeB.amountPurchased}`;
-upgradeBButton.id = `Upgrade B`;
-upgradeBButton.disabled = true;
-upgradeBButton.name = "upgradeBButton";
-app.append(upgradeBButton);
+const chocolateChumsButton: HTMLButtonElement = document.createElement("button");
+chocolateChumsButton.innerHTML = `Upgrade B: ${upgradeB.amountPurchased}`;
+chocolateChumsButton.id = `Chocolate Chums`;
+chocolateChumsButton.disabled = true;
+chocolateChumsButton.name = "chocolateChumsButton";
+app.append(chocolateChumsButton);
 
-const upgradeCButton: HTMLButtonElement = document.createElement("button");
-upgradeCButton.innerHTML = `Upgrade C: ${upgradeC.amountPurchased}`;
-upgradeCButton.id = `Upgrade C`;
-upgradeCButton.disabled = true;
-upgradeCButton.name = "upgradeCButton";
-app.append(upgradeCButton);
+const sugarSpecialistsButton: HTMLButtonElement = document.createElement("button");
+sugarSpecialistsButton.innerHTML = `Upgrade C: ${upgradeC.amountPurchased}`;
+sugarSpecialistsButton.id = `Sugar Specialists`;
+sugarSpecialistsButton.disabled = true;
+sugarSpecialistsButton.name = "sugarSpecialistsButton";
+app.append(sugarSpecialistsButton);
 
 //Disabled until ten
 function unlockUpgrade() {
