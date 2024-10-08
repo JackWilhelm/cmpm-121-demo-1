@@ -60,13 +60,13 @@ upgradeButton.id = "UpgradeId";
 
 //Disabled until ten
 function unlockUpgrade() {
-  if (counter >= upgradeCost && !document.getElementById("UpgradeId")) { //checks if button already exists
+  if (counter >= upgradeCost && !document.getElementById("UpgradeId")) {
+    //checks if button already exists
     console.log("here");
     app.append(upgradeButton);
     upgradeButton.addEventListener("click", () => {
-      if (counter >= upgradeCost)
-      counter -= upgradeCost;
-    upgradesPurchased += 1;
+      if (counter >= upgradeCost) counter -= upgradeCost;
+      upgradesPurchased += 1;
     });
   }
 }
