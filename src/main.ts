@@ -12,6 +12,8 @@ app.append(header);
 //Counter
 let counter: number = 0;
 let lastTime: number = performance.now();
+const upgradeCost: number = 10;
+let upgradesPurchased: number = 0;
 function updateCounter() {
   counter++;
   console.log(counter);
@@ -34,9 +36,10 @@ app.append(divElement);
 
 //Every second counter goes up one whole unit
 function updateCounterTime() {
-  counter += (performance.now() - lastTime)/1000;
+  counter += ((performance.now() - lastTime) / 1000) * upgradesPurchased;
   lastTime = performance.now();
   updateDivElement();
+  unlockUpgrade();
   requestAnimationFrame(updateCounterTime);
 }
 requestAnimationFrame(updateCounterTime);
@@ -50,4 +53,20 @@ function updateDivElement() {
   }
 }
 
+//Upgrade button
+const upgradeButton: HTMLButtonElement = document.createElement("button");
+upgradeButton.innerHTML = "Upgrade";
+upgradeButton.id = "UpgradeId";
 
+//Disabled until ten
+function unlockUpgrade() {
+  if (counter >= upgradeCost && !document.getElementById("UpgradeId")) { //checks if button already exists
+    console.log("here");
+    app.append(upgradeButton);
+    upgradeButton.addEventListener("click", () => {
+      if (counter >= upgradeCost)
+      counter -= upgradeCost;
+    upgradesPurchased += 1;
+    });
+  }
+}
