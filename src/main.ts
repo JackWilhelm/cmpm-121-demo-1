@@ -53,42 +53,48 @@ interface Item {
   name: string;
 }
 
-const availableItems: Item[] = [{
-  upgradeButtonName: "candyCollectorsButton",
-  cost: 10,
-  countersPerSec: 0.1,
-  amountPurchased: 0,
-  description: "Your run of the mill trick or treaters at your service",
-  name: "Candy Collectors"
-}, {
-  upgradeButtonName: "chocolateChumsButton",
-  cost: 100,
-  countersPerSec: 2,
-  amountPurchased: 0,
-  description: "These guys really know their chocolates ... and where to find them",
-  name: "Chocolate Chums"
-}, {
-  upgradeButtonName: "sugarSpecialistsButton",
-  cost: 1000,
-  countersPerSec: 50,
-  amountPurchased: 0,
-  description: "Experts on all things toothache-inducing",
-  name: "Sugar Specialists"
-}, {
-  upgradeButtonName: "bigBarBraniacsButton",
-  cost: 5000,
-  countersPerSec: 200,
-  amountPurchased: 0,
-  description: "The mathmatical masters of finding the biggest candy bars",
-  name: "Big Bar Braniacs"
-}, {
-  upgradeButtonName: "sweettoothTrackersButton",
-  cost: 10000,
-  countersPerSec: 1000,
-  amountPurchased: 0,
-  description: "Hunters on the best deals for candy",
-  name: "Sweettooth Trackers"
-}
+const availableItems: Item[] = [
+  {
+    upgradeButtonName: "candyCollectorsButton",
+    cost: 10,
+    countersPerSec: 0.1,
+    amountPurchased: 0,
+    description: "Your run of the mill trick or treaters at your service",
+    name: "Candy Collectors",
+  },
+  {
+    upgradeButtonName: "chocolateChumsButton",
+    cost: 100,
+    countersPerSec: 2,
+    amountPurchased: 0,
+    description:
+      "These guys really know their chocolates ... and where to find them",
+    name: "Chocolate Chums",
+  },
+  {
+    upgradeButtonName: "sugarSpecialistsButton",
+    cost: 1000,
+    countersPerSec: 50,
+    amountPurchased: 0,
+    description: "Experts on all things toothache-inducing",
+    name: "Sugar Specialists",
+  },
+  {
+    upgradeButtonName: "bigBarBraniacsButton",
+    cost: 5000,
+    countersPerSec: 200,
+    amountPurchased: 0,
+    description: "The mathmatical masters of finding the biggest candy bars",
+    name: "Big Bar Braniacs",
+  },
+  {
+    upgradeButtonName: "sweettoothTrackersButton",
+    cost: 10000,
+    countersPerSec: 1000,
+    amountPurchased: 0,
+    description: "Hunters on the best deals for candy",
+    name: "Sweettooth Trackers",
+  },
 ];
 
 function counterRate(): number {
