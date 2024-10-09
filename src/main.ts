@@ -40,42 +40,60 @@ button.style.backgroundColor = "transparent";
 const divElement: HTMLDivElement = document.createElement("div");
 divElement.id = "Trick or Treat!"; //Unit Label
 divElement.innerHTML = `${counter} treats!`;
+divElement.style.fontSize = "36px";
 app.append(divElement);
 
 //Upgrade
-interface Upgrade {
+interface Item {
   upgradeButtonName: string;
   cost: number;
   countersPerSec: number;
   amountPurchased: number;
+  description: string;
+  name: string;
 }
 
-const upgradeA: Upgrade = {
+const availableItems: Item[] = [{
   upgradeButtonName: "candyCollectorsButton",
   cost: 10,
   countersPerSec: 0.1,
   amountPurchased: 0,
-};
-
-const upgradeB: Upgrade = {
+  description: "Your run of the mill trick or treaters at your service",
+  name: "Candy Collectors"
+}, {
   upgradeButtonName: "chocolateChumsButton",
   cost: 100,
   countersPerSec: 2,
   amountPurchased: 0,
-};
-
-const upgradeC: Upgrade = {
+  description: "These guys really know their chocolates ... and where to find them",
+  name: "Chocolate Chums"
+}, {
   upgradeButtonName: "sugarSpecialistsButton",
   cost: 1000,
   countersPerSec: 50,
   amountPurchased: 0,
-};
-
-const allUpgrades: Upgrade[] = [upgradeA, upgradeB, upgradeC];
+  description: "Experts on all things toothache-inducing",
+  name: "Sugar Specialists"
+}, {
+  upgradeButtonName: "bigBarBraniacsButton",
+  cost: 5000,
+  countersPerSec: 200,
+  amountPurchased: 0,
+  description: "The mathmatical masters of finding the biggest candy bars",
+  name: "Big Bar Braniacs"
+}, {
+  upgradeButtonName: "sweettoothTrackersButton",
+  cost: 10000,
+  countersPerSec: 1000,
+  amountPurchased: 0,
+  description: "Hunters on the best deals for candy",
+  name: "Sweettooth Trackers"
+}
+];
 
 function counterRate(): number {
   let result = 0;
-  for (const upgrade of allUpgrades) {
+  for (const upgrade of availableItems) {
     const currentButton = document.querySelector(
       `button[name="${upgrade.upgradeButtonName}"]`,
     ) as HTMLButtonElement | null; //looking to see if there is a button element with the name
@@ -112,7 +130,7 @@ setInterval(() => {console.log(rate, (counter - secondCounter).toFixed(1));
 //update the Text
 function updateDivElement() {
   rate = 0;
-  for (const upgrade of allUpgrades) {
+  for (const upgrade of availableItems) {
     rate += upgrade.countersPerSec * upgrade.amountPurchased;
   }
   formattedRate = rate.toFixed(2);
@@ -127,45 +145,30 @@ function updateDivElement() {
 
 //update the button text
 function updateButtonElement() {
-  for (const upgrade of allUpgrades) {
+  for (const upgrade of availableItems) {
     const currentButton = document.querySelector(
       `button[name="${upgrade.upgradeButtonName}"]`,
     ) as HTMLButtonElement | null; //looking to see if there is a button element with the name
     if (currentButton) {
       const stringCost = upgrade.cost.toFixed(2);
-      currentButton.innerHTML = `${currentButton.id}: ${upgrade.amountPurchased}<br>Upgrade cost: ${stringCost}`;
+      currentButton.innerHTML = `${currentButton.id}: ${upgrade.amountPurchased}<br>Upgrade cost: ${stringCost}<br><br>${upgrade.description}`;
     }
   }
 }
 
 //Upgrade buttons
-const candyCollectorsButton: HTMLButtonElement =
-  document.createElement("button");
-candyCollectorsButton.innerHTML = `Upgrade A: ${upgradeA.amountPurchased}`;
-candyCollectorsButton.id = `Candy Collectors`;
-candyCollectorsButton.disabled = true;
-candyCollectorsButton.name = "candyCollectorsButton";
-app.append(candyCollectorsButton);
+const buttonArray: HTMLButtonElement[] = [];
+for (const upgrade of availableItems) {
+  const button = document.createElement("button");
+  button.id = upgrade.name;
+  button.disabled = true;
+  button.name = upgrade.upgradeButtonName;
+  app.append(button);
+  buttonArray.push(button);
+}
 
-const chocolateChumsButton: HTMLButtonElement =
-  document.createElement("button");
-chocolateChumsButton.innerHTML = `Upgrade B: ${upgradeB.amountPurchased}`;
-chocolateChumsButton.id = `Chocolate Chums`;
-chocolateChumsButton.disabled = true;
-chocolateChumsButton.name = "chocolateChumsButton";
-app.append(chocolateChumsButton);
-
-const sugarSpecialistsButton: HTMLButtonElement =
-  document.createElement("button");
-sugarSpecialistsButton.innerHTML = `Upgrade C: ${upgradeC.amountPurchased}`;
-sugarSpecialistsButton.id = `Sugar Specialists`;
-sugarSpecialistsButton.disabled = true;
-sugarSpecialistsButton.name = "sugarSpecialistsButton";
-app.append(sugarSpecialistsButton);
-
-//Disabled until ten
 function unlockUpgrade() {
-  for (const upgrade of allUpgrades) {
+  for (const upgrade of availableItems) {
     const currentButton = document.querySelector(
       `button[name="${upgrade.upgradeButtonName}"]`,
     ) as HTMLButtonElement | null; //looking to see if there is a button element with the name
