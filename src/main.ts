@@ -12,42 +12,39 @@ app.append(header);
 document.body.style.fontFamily = '"Papyrus", fantasy, sans-serif';
 document.body.style.color = "orange";
 
-//Counter
 let counter: number = 0;
 let lastTime: number = performance.now();
 let rate: number = 0;
 let formattedRate: string = rate.toFixed(2);
 let roundedCounter: string = counter.toFixed(2);
+const upgradeCostMultiplier = 1.15;
 function updateCounter() {
   counter++;
-  console.log(counter);
-  updateDivElement();
+  updateTreatDisplay();
 }
 
-//Button
-const button: HTMLButtonElement = document.createElement("button");
-button.innerHTML = "🍬";
-app.append(button);
-button.addEventListener("click", () => {
+const treatButton: HTMLButtonElement = document.createElement("button");
+treatButton.innerHTML = "🍬";
+app.append(treatButton);
+treatButton.addEventListener("click", () => {
   updateCounter();
 });
-button.style.fontSize = "128px";
-button.style.border = "none";
-button.style.padding = "0";
-button.style.backgroundColor = "transparent";
+treatButton.style.fontSize = "128px";
+treatButton.style.border = "none";
+treatButton.style.padding = "0";
+treatButton.style.backgroundColor = "transparent";
 
-//divElement
-const divElement: HTMLDivElement = document.createElement("div");
-divElement.id = "Trick or Treat!"; //Unit Label
-divElement.innerHTML = `${counter} treats!`;
-divElement.style.fontSize = "36px";
-app.append(divElement);
+const treatsDisplay: HTMLDivElement = document.createElement("div");
+treatsDisplay.id = "Trick or Treat!"; //Unit Label
+treatsDisplay.innerHTML = `${counter} treats!`;
+treatsDisplay.style.fontSize = "36px";
+app.append(treatsDisplay);
 
 //Upgrade
 interface Item {
   upgradeButtonName: string;
   cost: number;
-  countersPerSec: number;
+  treatsPerSec: number;
   amountPurchased: number;
   description: string;
   name: string;
@@ -57,7 +54,7 @@ const availableItems: Item[] = [
   {
     upgradeButtonName: "candyCollectorsButton",
     cost: 10,
-    countersPerSec: 0.1,
+    treatsPerSec: 0.1,
     amountPurchased: 0,
     description: "Your run of the mill trick or treaters at your service",
     name: "Candy Collectors",
@@ -65,7 +62,7 @@ const availableItems: Item[] = [
   {
     upgradeButtonName: "chocolateChumsButton",
     cost: 100,
-    countersPerSec: 2,
+    treatsPerSec: 2,
     amountPurchased: 0,
     description:
       "These guys really know their chocolates ... and where to find them",
@@ -74,7 +71,7 @@ const availableItems: Item[] = [
   {
     upgradeButtonName: "sugarSpecialistsButton",
     cost: 1000,
-    countersPerSec: 50,
+    treatsPerSec: 50,
     amountPurchased: 0,
     description: "Experts on all things toothache-inducing",
     name: "Sugar Specialists",
@@ -82,7 +79,7 @@ const availableItems: Item[] = [
   {
     upgradeButtonName: "bigBarBraniacsButton",
     cost: 5000,
-    countersPerSec: 200,
+    treatsPerSec: 200,
     amountPurchased: 0,
     description: "The mathmatical masters of finding the biggest candy bars",
     name: "Big Bar Braniacs",
@@ -90,7 +87,7 @@ const availableItems: Item[] = [
   {
     upgradeButtonName: "sweettoothTrackersButton",
     cost: 10000,
-    countersPerSec: 1000,
+    treatsPerSec: 1000,
     amountPurchased: 0,
     description: "Hunters on the best deals for candy",
     name: "Sweettooth Trackers",
@@ -106,50 +103,52 @@ function counterRate(): number {
     if (currentButton) {
       //check if button is null
       if (!currentButton.disabled) {
-        result +=
-          ((performance.now() - lastTime) / 1000) *
-          (upgrade.countersPerSec * upgrade.amountPurchased);
+        result += getUpgradeIncrease(upgrade);
       }
     }
   }
   return result;
 }
 
+function getUpgradeIncrease(upgrade: Item): number {
+  const timeSinceLastTick: number = (performance.now() - lastTime) / 1000; //1000 for time conversion
+  const upgradeRate: number = upgrade.treatsPerSec * upgrade.amountPurchased;
+  return timeSinceLastTick * upgradeRate;
+}
+
 //Every second counter goes up one whole unit
 function updateCounterTime() {
-  counter += counterRate();
-  lastTime = performance.now();
-  updateDivElement();
-  updateButtonElement();
-  unlockUpgrade();
+  updateCounterState();
+  updateVisuals();
+  upgradeUnlockCheck();
   requestAnimationFrame(updateCounterTime);
 }
 requestAnimationFrame(updateCounterTime);
 
-/*
-let secondCounter = counter;
-setInterval(() => {console.log(rate, (counter - secondCounter).toFixed(1));
-  secondCounter = counter;
-}, 1000);
-*/ //Rate tester
+function updateCounterState() {
+  counter += counterRate();
+  lastTime = performance.now();
+}
 
-//update the Text
-function updateDivElement() {
+function updateVisuals() {
+  updateTreatDisplay();
+  updateButtonElement();
+}
+
+function updateTreatDisplay() {
   rate = 0;
   for (const upgrade of availableItems) {
-    rate += upgrade.countersPerSec * upgrade.amountPurchased;
+    rate += upgrade.treatsPerSec * upgrade.amountPurchased;
   }
   formattedRate = rate.toFixed(2);
-  console.log(rate);
   roundedCounter = counter.toFixed(2);
   if (roundedCounter == "1") {
-    divElement.innerHTML = `${roundedCounter}<br>treat trick-or-treated!<br>${formattedRate} treats/sec`; //proper grammar
+    treatsDisplay.innerHTML = `${roundedCounter}<br>treat trick-or-treated!<br>${formattedRate} treats/sec`; //proper grammar
   } else {
-    divElement.innerHTML = `${roundedCounter}<br>treats trick-or-treated!<br>${formattedRate} treats/sec`;
+    treatsDisplay.innerHTML = `${roundedCounter}<br>treats trick-or-treated!<br>${formattedRate} treats/sec`;
   }
 }
 
-//update the button text
 function updateButtonElement() {
   for (const upgrade of availableItems) {
     const currentButton = document.querySelector(
@@ -173,24 +172,27 @@ for (const upgrade of availableItems) {
   buttonArray.push(button);
 }
 
-function unlockUpgrade() {
+function upgradeUnlockCheck() {
   for (const upgrade of availableItems) {
     const currentButton = document.querySelector(
       `button[name="${upgrade.upgradeButtonName}"]`,
     ) as HTMLButtonElement | null; //looking to see if there is a button element with the name
     if (currentButton) {
       //check if button is null
-      if (currentButton.disabled && counter >= upgrade.cost) {
-        console.log(upgrade.upgradeButtonName);
-        currentButton.disabled = false;
-        currentButton.addEventListener("click", () => {
-          if (counter >= upgrade.cost) {
-            counter -= upgrade.cost;
-            upgrade.amountPurchased += 1;
-            upgrade.cost *= 1.15;
-          }
-        });
-      }
+      unlockUpgrade(currentButton, upgrade);
     }
+  }
+}
+
+function unlockUpgrade(currentButton: HTMLButtonElement, upgrade: Item) {
+  if (currentButton.disabled && counter >= upgrade.cost) {
+    currentButton.disabled = false;
+    currentButton.addEventListener("click", () => {
+      if (counter >= upgrade.cost) {
+        counter -= upgrade.cost;
+        upgrade.amountPurchased += 1;
+        upgrade.cost *= upgradeCostMultiplier;
+      }
+    });
   }
 }
