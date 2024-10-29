@@ -12,6 +12,18 @@ app.append(header);
 document.body.style.fontFamily = '"Papyrus", fantasy, sans-serif';
 document.body.style.color = "orange";
 
+const container = document.createElement("div");
+container.classList.add("container");
+app.append(container);
+
+const treatColumn = document.createElement("div");
+treatColumn.classList.add("column");
+container.append(treatColumn);
+
+const upgradesColumn = document.createElement("div");
+upgradesColumn.classList.add("column");
+container.append(upgradesColumn);
+
 let counter: number = 0;
 let lastTime: number = performance.now();
 let rate: number = 0;
@@ -25,9 +37,12 @@ function updateCounter() {
 
 const treatButton: HTMLButtonElement = document.createElement("button");
 treatButton.innerHTML = "🍬";
-app.append(treatButton);
-treatButton.addEventListener("click", () => {
+treatColumn.append(treatButton);
+let rotation: number = 0;
+treatButton.addEventListener("click", (event) => {
+  event.stopPropagation();
   updateCounter();
+  treatButton.style.transform = `rotate(${(rotation += 360)}deg)`;
 });
 treatButton.style.fontSize = "128px";
 treatButton.style.border = "none";
@@ -38,7 +53,7 @@ const treatsDisplay: HTMLDivElement = document.createElement("div");
 treatsDisplay.id = "Trick or Treat!"; //Unit Label
 treatsDisplay.innerHTML = `${counter} treats!`;
 treatsDisplay.style.fontSize = "36px";
-app.append(treatsDisplay);
+treatColumn.append(treatsDisplay);
 
 //Upgrade
 interface Item {
@@ -168,7 +183,7 @@ for (const upgrade of availableItems) {
   button.id = upgrade.name;
   button.disabled = true;
   button.name = upgrade.upgradeButtonName;
-  app.append(button);
+  upgradesColumn.append(button);
   buttonArray.push(button);
 }
 

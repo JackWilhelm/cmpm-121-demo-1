@@ -31,6 +31,25 @@ body {
   min-height: 100vh;
 }
 
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  width: 40vw;
+  height: 80vh;
+  padding: 20px;
+  border-radius: 14px;
+  outline: 4px solid rgb(216, 113, 65);
+  box-shadow: 0 0 20px rgba(51, 45, 45, 0.3);
+  margin: 20px;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -53,24 +72,26 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  margin: 0.75em;
+  transition: transform 0.5s ease;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: rgba(255, 255, 255, 0.87);
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: none;
 }
 
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #1d1a1a;
   }
   a:hover {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: rgb(216, 113, 65);
   }
 }
